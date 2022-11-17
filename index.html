@@ -457,6 +457,7 @@
                                                     document.getElementById('yest').innerHTML = svet;
                                                     var nayav = "Світло буде вимкнене ще:";
                                                     document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 10;
                                                 } else if (day == 1 && hour < 10 && hour >= 6) {
                                                     document.getElementById('ne1').style.backgroundColor = "orange";
                                                     var svet = "ДТЕК сказав посидіти 4 години в темряві...";
@@ -527,7 +528,7 @@
                                                     var nayav = "Світло буде вимкнене ще:";
                                                     document.getElementById('yesno').innerHTML = nayav;
                                                     host = 22;
-                                                } else if (day == 4 && hour < 0 && hour >= 21) {
+                                                } else if (day == 4 && hour <= 23 && hour >= 21) {
                                                     document.getElementById('sr3').style.backgroundColor = "orange";
                                                     var svet = "ДТЕК сказав посидіти 4 години в темряві...";
                                                     document.getElementById('yest').innerHTML = svet;
@@ -541,7 +542,7 @@
                                                     var nayav = "Світло буде вимкнене ще:";
                                                     document.getElementById('yesno').innerHTML = nayav;
                                                     host = 01;
-                                                } else if (day == 7 && hour < 0 && hour >= 21) {
+                                                } else if (day == 7 && hour <= 23 && hour >= 21) {
                                                     document.getElementById('sy3').style.backgroundColor = "orange";
                                                     var svet = "ДТЕК сказав посидіти 4 години в темряві...";
                                                     document.getElementById('yest').innerHTML = svet;
