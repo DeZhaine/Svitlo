@@ -1,0 +1,772 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Таймер відключень</title>
+    <style type="text/css">
+        p.main {
+            font-style: "Times New Roman";
+            font-size: 150%;
+        }
+
+        body {
+            background-color: #00A86B;
+        }
+
+        BODY {
+            margin: 0;
+            /* Прибираємо відступи */
+        }
+
+        div.big {
+            margin: 0%;
+            /* Відступи навколо елемента */
+            background: #00A86B;
+            /* Колір фону */
+            padding: 10px;
+            /* Поля навколо тексту */
+        }
+
+        div.small {
+            background: #FDE910;
+            /* Колір фону */
+            border: 10px solid #FF033E;
+            /* Параметри рамки */
+            padding: 30px;
+            /* Поля навколо тексту */
+            margin: 0px;
+            /* Відступи навколо */
+        }
+
+        div.small_2 {
+            background: #ffffff;
+            /* Колір фону */
+            border: 2px solid #000000;
+            /* Параметри рамки */
+            padding: 30px;
+            /* Поля навколо тексту */
+            margin: 0px;
+            /* Відступи навколо */
+        }
+
+        div#yest {
+            font-size: 160%;
+        }
+
+        h1 {
+            background-color: red;
+            font-size: 200%;
+            color: white;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .table th {
+            color: #ffffff;
+            padding: 3;
+            vertical-align: top;
+            border-top: 2px solid #000000;
+            border-bottom: 2px solid #000000;
+        }
+
+        .table td {
+            padding: 3;
+            vertical-align: top;
+            height: 80;
+            border-bottom: 2px dashed #000000;
+        }
+
+        .table th,
+        .table td {
+            border-left: 2px solid #000000;
+        }
+
+        .table th:last-child,
+        .table td:last-child {
+            border-right: 2px solid #000000;
+        }
+
+        .table td:first-child {
+            font-weight: bold;
+        }
+
+        .table tr:last-of-type>td {
+            border-bottom: 2px solid #000000;
+        }
+
+        .table .th_a>th {
+            height: 0;
+            padding: 2;
+            background-color: #FDE910;
+            border-bottom: 0px solid #000000;
+        }
+
+        .table .th_c>th {
+            height: 0;
+            padding: 2;
+            background-color: #FDE910;
+            border-top: 0px solid #000000;
+        }
+
+        #yesno {
+            font-size: 200%;
+        }
+
+        .countdown-title {
+            color: #396;
+            font-weight: 100;
+            font-size: 40px;
+            margin: 40px 0px 20px;
+        }
+
+        .countdown {
+            font-family: sans-serif;
+            color: #fff;
+            display: inline-block;
+            font-weight: 100;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .countdown-number {
+            padding: 15px;
+            border-radius: 3px;
+            background: #00bf96;
+            display: inline-block;
+        }
+
+        .countdown-time {
+            padding: 40px;
+            border-radius: 3px;
+            background: #00816a;
+            display: inline-block;
+            font-size: 45px;
+        }
+
+        .countdown-text {
+            display: block;
+            padding-top: 5px;
+            font-size: 16px;
+        }
+
+        .menu_nav {
+            list-style: none;
+            /* ховаємо маркери */
+        }
+
+        .menu_nav li {
+            float: left;
+            /* розташовуємо елементи списку в один ряд */
+            margin-right: 15px;
+            /* робимо відступ, щоб пункти меню не зливалися */
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /*Прибираємо підкреслення посилання*/
+        .menu_nav li a {
+            display: inline-block;
+            /* змінюємо відображення на блок, щоб мати можливість задавати внутрішні
+відступи */
+            padding: 3px 5px;
+            background: #FDE910;
+            color: #000;
+            position: relative;
+        }
+
+        .menu_nav li a:hover {
+            background: #ff0404;
+            color: #fff;
+        }
+    </style>
+
+    <script>
+        var months = new Array(13);
+        months[1] = "січня"; months[2] = "лютого"; months[3] = "березня"; months[4] = "квітня"; months[5] = "травня"; months[6] = "червня"; months[7] = "липня"; months[8] = "серпня"; months[9] = "вересня"; months[10] = "жовтня"; months[11] = "листопада"; months[12] = "лютого";
+
+        var time = new Date();
+        var thismonth = months[time.getMonth() + 1];
+        var date = time.getDate();
+        var thisyear = time.getYear();
+        var day = time.getDay() + 1;
+
+        if (thisyear < 2000)
+            thisyear = thisyear + 1900;
+        if (day == 1) DayofWeek = "Неділя";
+        if (day == 2) DayofWeek = "Понеділок";
+        if (day == 3) DayofWeek = "Вівторок";
+        if (day == 4) DayofWeek = "Середа";
+        if (day == 5) DayofWeek = "Четвер";
+        if (day == 6) DayofWeek = "П'ятниця";
+        if (day == 7) DayofWeek = "Субота";
+    </script>
+
+    <script>
+        setInterval(function () {
+            var cd = new Date();
+            var clockdat = document.getElementById("clockdat");
+            clockdat.innerHTML = cd.toLocaleTimeString();
+        }, 1000);
+
+        const h = new Date();
+        let hour = h.getHours();
+    </script>
+</head>
+
+<body>
+    <ul class="menu_nav">
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="group2.html">Група 2</a></li>
+        <li><a href="group3.html">Група 3</a></li>
+    </ul>
+    <div class="big" align="center"><b><big>
+                <p class="main">
+                <h1>Відключення світла (Група 2)</h1><b>
+            </big></p class="main">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td>
+                        <div>
+                            <div>
+                                <div class="big" align="center">
+                                    <div class="small" align="center">
+                                        <div class="small_2" align="center">
+                                            <div id="time_block" align="center"></div>
+                                            <div class="center" style="background-color: #ffffff; padding:10px;">
+                                                <span style="color:#00A86B; font-size:30px;">Сьогодні:</span>
+                                                <span style="color:black; font-size:30px;">
+                                                    <script>
+                                                        document.write(date + " ");
+                                                        document.write(thismonth + " " + thisyear + " " + "року");
+                                                    </script><br>
+                                                    <span style="color:#00A86B; font-size:30px;">День тижня:</span>
+                                                    <span style="color:black; font-size:30px;">
+                                                        <script>
+                                                            document.write(DayofWeek);
+                                                        </script><br>
+                                                        <span style="color:black; font-size:30px;">Поточний час —</span>
+                                                        <span id="clockdat" style="color:#00A86B"></span>
+                                                    </span>
+                                            </div>
+                                            </big>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="big" align="center">
+                                    <div class="small" align="center"><big>
+                                            <p class="main" id="yesno">
+                                        </big></p class="main">
+                                        <div class="small_2" align="center">
+                                            <div id="countdown" class="countdown">
+                                                <div class="countdown-number">
+                                                    <span class="hours countdown-time"></span>
+                                                    <span class="countdown-text">год.</span>
+                                                </div>
+                                                <div class="countdown-number">
+                                                    <span class="minutes countdown-time"></span>
+                                                    <span class="countdown-text">хв.</span>
+                                                </div>
+                                                <div class="countdown-number">
+                                                    <span class="seconds countdown-time"></span>
+                                                    <span class="countdown-text">сек.</span>
+                                                </div>
+                                            </div>
+                                            </big>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="big" align="center">
+                                    <div class="small" align="center"><big>
+                                            <p class="main">
+                                        </big></p class="main">
+                                        <div class="small_2" align="center">
+                                            <div id="yest" align="center">
+                                            </div>
+                                            </big>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="big" align="center">
+                                    <div class="small" align="center"><big>
+                                            <p class="main">
+                                                Графік відключень:
+                                        </big></p class="main">
+                                        <table cellpadding="0" cellspacing="0" class="table" width="100%">
+                                            <tr class="th_a">
+                                                <th colspan="8"></th>
+                                            </tr>
+                                            <tr bgcolor="#00A86B" align="center">
+                                                <th id="bg2" width="100">
+                                                    <script>
+                                                        if (day == 2) {
+                                                            document.getElementById('bg2').style.backgroundColor = "red";
+                                                        }
+                                                    </script>
+                                                    Понеділок
+                                                </th>
+                                                <th id="bg3" width="100">
+                                                    <script>
+                                                        if (day == 3) {
+                                                            document.getElementById('bg3').style.backgroundColor = "red";
+                                                        }
+                                                    </script>
+                                                    Вівторок
+                                                </th>
+                                                <th id="bg4" width="100">
+                                                    <script>
+                                                        if (day == 4) {
+                                                            document.getElementById('bg4').style.backgroundColor = "red";
+                                                        }
+                                                    </script>
+                                                    Середа
+                                                </th>
+                                                <th id="bg5" width="100">
+                                                    <script>
+                                                        if (day == 5) {
+                                                            document.getElementById('bg5').style.backgroundColor = "red";
+                                                        }
+                                                    </script>
+                                                    Четвер
+                                                </th>
+                                                <th id="bg6" width="100">
+                                                    <script>
+                                                        if (day == 6) {
+                                                            document.getElementById('bg6').style.backgroundColor = "red";
+                                                        }
+                                                    </script>
+                                                    П'ятниця
+                                                </th>
+                                                <th id="bg7" width="100">
+                                                    <script>
+                                                        if (day == 7) {
+                                                            document.getElementById('bg7').style.backgroundColor = "red";
+                                                        }
+                                                    </script>
+                                                    Субота
+                                                </th>
+                                                <th id="bg1" width="100">
+                                                    <script>
+                                                        if (day == 1) {
+                                                            document.getElementById('bg1').style.backgroundColor = "red";
+                                                        }
+                                                    </script>
+                                                    Неділя
+                                                </th>
+                                            </tr>
+                                            <tr class="th_c">
+                                                <th colspan="9"></th>
+                                            </tr>
+                                            <tr class="row" bgcolor="#ffffff" align="center">
+                                                <td id="po1"> 00:00 - 04:00 </td> 
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="ch1"> 00:00 - 04:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="ne1"> 00:00 - 04:00 </td>
+                                            </tr>
+                                            <tr bgcolor="#ffffff" align="center">
+                                                <td> </td>
+                                                <td id="wi1"> 03:00 - 07:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="pa1"> 03:00 - 07:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                            </tr>
+                                            <tr bgcolor="#ffffff" align="center">
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="sr1"> 06:00 - 10:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="sy1"> 06:00 - 10:00 </td>
+                                                <td> </td>
+                                            </tr>
+                                            <tr bgcolor="#ffffff" align="center">
+                                                <td id="po2"> 09:00 - 13:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="ch2"> 09:00 - 13:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="ne2"> 09:00 - 13:00 </td>
+                                            </tr>
+                                            <tr bgcolor="#ffffff" align="center">
+                                                <td> </td>
+                                                <td id="wi2"> 12:00 - 16:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="pa2"> 12:00 - 16:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                            </tr>
+                                            <tr bgcolor="#ffffff" align="center">
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="sr2"> 15:00 - 19:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="sy2"> 15:00 - 19:00 </td>
+                                                <td> </td>
+                                            </tr>
+                                            <tr bgcolor="#ffffff" align="center">
+                                                <td id="po3"> 18:00 - 22:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="ch3"> 18:00 - 22:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="ne3"> 18:00 - 22:00 </td>
+                                            </tr>
+                                            <tr bgcolor="#ffffff" align="center">
+                                                <td> </td>
+                                                <td id="wi3"> 21:00 - 01:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                                <td id="pa3"> 21:00 - 01:00 </td>
+                                                <td> </td>
+                                                <td> </td>
+                                            </tr>
+
+                                            <script>
+                                                if (day == 2 && hour < 4 && hour >= 0) {
+                                                    document.getElementById('po1').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 04;
+                                                } else if (day == 5 && hour < 4 && hour >= 0) {
+                                                    document.getElementById('ch1').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 04;
+                                                } else if (day == 1 && hour < 4 && hour >= 0) {
+                                                    document.getElementById('ne1').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 04;    
+                                                } else if (day == 3 && hour < 7 && hour >= 3) {
+                                                    document.getElementById('wi1').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 07;
+                                                } else if (day == 6 && hour < 7 && hour >= 3) {
+                                                    document.getElementById('pa1').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 07;
+                                                } else if (day == 4 && hour < 10 && hour >= 6) {
+                                                    document.getElementById('sr1').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 10;
+                                                } else if (day == 7 && hour < 10 && hour >= 6) {
+                                                    document.getElementById('sy1').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 10;
+                                                } else if (day == 2 && hour < 13 && hour >= 9) {
+                                                    document.getElementById('po2').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 13;
+                                                } else if (day == 5 && hour < 13 && hour >= 9) {
+                                                    document.getElementById('ch2').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 13;
+                                                } else if (day == 1 && hour < 13 && hour >= 9) {
+                                                    document.getElementById('ne2').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 13;
+                                                } else if (day == 3 && hour < 16 && hour >= 12) {
+                                                    document.getElementById('wi2').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 16;
+                                                } else if (day == 6 && hour < 16 && hour >= 12) {
+                                                    document.getElementById('pa2').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 16;
+                                                } else if (day == 4 && hour < 19 && hour >= 15) {
+                                                    document.getElementById('sr2').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 19;
+                                                } else if (day == 7 && hour < 19 && hour >= 15) {
+                                                    document.getElementById('sy2').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 19;
+                                                } else if (day == 2 && hour < 22 && hour >= 18) {
+                                                    document.getElementById('po3').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 22;
+                                                } else if (day == 5 && hour < 22 && hour >= 18) {
+                                                    document.getElementById('ch3').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 22;
+                                                } else if (day == 1 && hour < 22 && hour >= 18) {
+                                                    document.getElementById('ne3').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 22;
+                                                } else if (day == 3 && hour <= 23 && hour >= 21) {
+                                                    document.getElementById('wi3').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 01;
+                                                } else if (day == 4 && hour < 1 && hour >= 0) {
+                                                    document.getElementById('wi3').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 01;
+                                                } else if (day == 6 && hour <= 23 && hour >= 21) {
+                                                    document.getElementById('pa3').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 01;
+                                                } else if (day == 7 && hour < 1 && hour >= 0) {
+                                                    document.getElementById('pa3').style.backgroundColor = "orange";
+                                                    var svet = "ДТЕК сказав посидіти 4 години в темряві...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Світло буде вимкнене ще:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 01;
+
+                                                } else if (day == 1 && hour < 9 && hour >= 4) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 09;
+                                                } else if (day == 1 && hour < 18 && hour >= 13) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 18;
+                                                } else if (day == 1 && hour <= 23 && hour >= 22) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 00;
+                                                } else if (day == 2 && hour < 9 && hour >= 4) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 09;
+                                                } else if (day == 2 && hour < 18 && hour >= 13) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 18;
+                                                } else if (day == 2 && hour <= 23 && hour >= 22) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 03;
+                                                } else if (day == 3 && hour < 3 && hour >= 0) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 03;
+                                                } else if (day == 3 && hour < 12 && hour >= 7) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 12;
+                                                } else if (day == 3 && hour < 21 && hour >= 16) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 21;
+                                                } else if (day == 4 && hour < 6 && hour >= 1) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 06;
+                                                } else if (day == 4 && hour < 15 && hour >= 10) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 15;
+                                                } else if (day == 4 && hour <= 23 && hour >= 19) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 00;
+                                                } else if (day == 5 && hour < 9 && hour >= 4) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 09;
+                                                } else if (day == 5 && hour < 18 && hour >= 13) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 18;
+                                                } else if (day == 5 && hour <= 23 && hour >= 22) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 03;
+                                                } else if (day == 6 && hour < 3 && hour >= 0) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 03;
+                                                } else if (day == 6 && hour < 12 && hour >= 7) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 12;
+                                                } else if (day == 6 && hour < 21 && hour >= 16) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 21;
+                                                } else if (day == 7 && hour < 6 && hour >= 1) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 06;
+                                                } else if (day == 7 && hour < 15 && hour >= 10) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 15;
+                                                } else if (day == 7 && hour <= 23 && hour >= 19) {
+                                                    var svet = "Насолоджуйтеся світлом, за графіком воно повинно бути...";
+                                                    document.getElementById('yest').innerHTML = svet;
+                                                    var nayav = "Час, до наступного відключення:";
+                                                    document.getElementById('yesno').innerHTML = nayav;
+                                                    host = 00;
+                                                }
+
+                                                function getTimeRemaining(endtime) {
+                                                    var t = Date.parse(endtime) - Date.parse(new Date());
+                                                    var seconds = Math.floor((t / 1000) % 60);
+                                                    var minutes = Math.floor((t / 1000 / 60) % 60);
+                                                    var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+                                                    return {
+                                                        'total': t,
+                                                        'hours': hours,
+                                                        'minutes': minutes,
+                                                        'seconds': seconds
+                                                    };
+                                                }
+
+                                                function initializeClock(id, endtime) {
+                                                    var clock = document.getElementById(id);
+                                                    var hoursSpan = clock.querySelector('.hours');
+                                                    var minutesSpan = clock.querySelector('.minutes');
+                                                    var secondsSpan = clock.querySelector('.seconds');
+
+                                                    function updateClock() {
+                                                        var t = getTimeRemaining(endtime);
+
+                                                        hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+                                                        minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+                                                        secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+                                                        if (t.total <= 0) {
+                                                            clearInterval(timeinterval);
+                                                            var deadline = "July 18 2023 " + host + ":00:00 GMT+0200";
+                                                            initializeClock('countdown', deadline);
+                                                        }
+                                                    }
+
+                                                    updateClock();
+                                                    var timeinterval = setInterval(updateClock, 1000);
+                                                }
+
+                                                var deadline = "July 18 2023 " + host + ":00:00 GMT+0200";
+                                                initializeClock('countdown', deadline);
+                                            </script>
+                                        </table>
+                                        </big>
+                                    </div>
+                                </div>
+                                <div class="big" align="center">
+                                    <p align="center">
+                                        Автором даного веб-сайту є DeZhaine <br>
+                                        <a href="https://kyiv.yasno.com.ua/schedule-turn-off-electricity">
+                                            Перевірити оновлення графіку відключення</a>
+                                    </p>
+                                </div>
+                            </div>
+                    </td>
+                    </td>
+                </tr>
+</body>
+
+</html>
